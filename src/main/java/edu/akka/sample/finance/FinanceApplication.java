@@ -55,6 +55,8 @@ public class FinanceApplication {
 
     while (!transactions.isEmpty()) {
 
+      bulkActor.tell(transactions, actorSystem.guardian());
+
       Await.result(Patterns.ask(bulkActor, transactions, Timeout.apply(5, TimeUnit.MINUTES)),
           Duration.create(5, TimeUnit.MINUTES));
 

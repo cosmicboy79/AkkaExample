@@ -1,0 +1,7 @@
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/FinanceApplication.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/actor/CustomerActor.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/actor/FinanceTransactionsBulkActor.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/data/definition/Transaction.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/data/definition/TransactionType.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/data/provider/TransactionProvider.java
+/Users/cristiano/Workspace/AkkaExample/src/main/java/edu/akka/sample/finance/utils/ColorfulOut.java

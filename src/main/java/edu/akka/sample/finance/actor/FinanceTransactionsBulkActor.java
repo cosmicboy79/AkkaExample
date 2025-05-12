@@ -26,6 +26,7 @@ package edu.akka.sample.finance.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
 import akka.actor.PoisonPill;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -62,13 +63,25 @@ public class FinanceTransactionsBulkActor extends AbstractActor {
 
     transactions.forEach(transaction -> {
 
-      ActorRef customerActor = getContext().actorOf(
-          CustomerActor.getCustomerActor(transaction.customerId()));
+      ActorRef customerActor = getActorRef(transaction);
 
       ColorfulOut.INSTANCE.purple("Sending message to " + customerActor.path());
 
       customerActor.tell(transaction, customerActor);
     });
+  }
+
+  private ActorRef getActorRef(Transaction transaction) {
+
+    String actorName = "customer-" + transaction.customerId();
+
+    if (!getContext().child(actorName).isEmpty()) {
+
+      return getContext().child(actorName).get();
+    }
+
+    return getContext().actorOf(CustomerActor.getCustomerActor(), actorName);
+
   }
 
   private void acknowledgeProcessedTransaction(TransactionProcessed transactionProcessed) {
@@ -79,7 +92,7 @@ public class FinanceTransactionsBulkActor extends AbstractActor {
 
       ColorfulOut.INSTANCE.yellow("All transactions processed!");
 
-      getContext().getParent().tell(PoisonPill.getInstance(), getSelf());
+      getContext().getParent().tell("Finished", getSelf());
     }
   }
 }

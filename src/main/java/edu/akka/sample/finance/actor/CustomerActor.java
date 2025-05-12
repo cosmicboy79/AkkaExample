@@ -31,16 +31,9 @@ import edu.akka.sample.finance.utils.ColorfulOut;
 
 class CustomerActor extends AbstractActor {
 
-  private final String actorIdentifer;
+  public static Props getCustomerActor() {
 
-  private CustomerActor(String actorIdentifer) {
-
-    this.actorIdentifer = actorIdentifer;
-  }
-
-  public static Props getCustomerActor(String customerId) {
-
-    return Props.create(CustomerActor.class, () -> new CustomerActor(customerId));
+    return Props.create(CustomerActor.class, CustomerActor::new);
   }
 
   @Override
