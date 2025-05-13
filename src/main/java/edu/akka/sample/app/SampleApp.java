@@ -31,7 +31,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
-import edu.akka.sample.app.actor.FinanceTransactionsBulkActor;
+import edu.akka.sample.app.actor.TransactionsBulkActor;
 import edu.akka.sample.app.data.definition.Transaction;
 import edu.akka.sample.app.data.provider.TransactionProvider;
 import edu.akka.sample.app.utils.CustomSystemOut;
@@ -55,7 +55,7 @@ public class SampleApp {
     ActorSystem actorSystem = ActorSystem.create("ClassicAkkaSampleApp");
 
     // creating the instance of the Bulk Actor
-    ActorRef bulkActor = actorSystem.actorOf(Props.create(FinanceTransactionsBulkActor.class));
+    ActorRef bulkActor = actorSystem.actorOf(Props.create(TransactionsBulkActor.class));
 
     // reading first chunk of financial data
     List<Transaction> transactions = TransactionProvider.getInstance().readTransactions(

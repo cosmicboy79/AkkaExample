@@ -37,7 +37,7 @@ import java.util.List;
  * Bulk Actor that receives a list of financial transactions and sends each one of the to the
  * respective, related Customer Actor for processing.
  */
-public class FinanceTransactionsBulkActor extends AbstractActor {
+public class TransactionsBulkActor extends AbstractActor {
 
   private int numberOfTransactionsToProcess;
   private ActorRef parentActor;
