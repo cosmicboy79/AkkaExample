@@ -22,39 +22,14 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.data.definition;
+package edu.akka.sample.app.data.definition;
 
 /**
- * Represents a customer.
+ * Supported types of financial transactions.
  */
-public enum Customer {
+public enum TransactionType {
 
-  CUSTOMER_ID_1("1fd40c65-f596-45d8-9e0a-632c37ccb771", "\u001B[35m"),
-  CUSTOMER_ID_2("00221321-592f-49f7-933a-e6aebdc716a6", "\033[0;32m"),
-  CUSTOMER_ID_3("ed870e05-ac7a-4847-8d40-bb37f1fe4880", "\033[0;34m");
-
-  private final String customerId;
-  private final String color;
-
-  Customer(String customerId, String color) {
-
-    this.customerId = customerId;
-    this.color = color;
-  }
-
-  /**
-   * @return Customer identification
-   */
-  public String getCustomerId() {
-
-    return customerId;
-  }
-
-  /**
-   * @return Customer identification with its associated color mark for printing to the output
-   */
-  public String getColorfulCustomerId() {
-
-    return color + customerId;
-  }
+  INVOICE,
+  PAYMENT,
+  REFUND;
 }

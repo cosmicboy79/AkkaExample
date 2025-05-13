@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance;
+package edu.akka.sample.app;
 
 import static scala.concurrent.duration.Duration.Inf;
 
@@ -31,10 +31,10 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
-import edu.akka.sample.finance.actor.FinanceTransactionsBulkActor;
-import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.data.provider.TransactionProvider;
-import edu.akka.sample.finance.utils.CustomSystemOut;
+import edu.akka.sample.app.actor.FinanceTransactionsBulkActor;
+import edu.akka.sample.app.data.definition.Transaction;
+import edu.akka.sample.app.data.provider.TransactionProvider;
+import edu.akka.sample.app.utils.CustomSystemOut;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -45,14 +45,14 @@ import scala.concurrent.duration.Duration;
  * Main Application: it reads financial transactions repeatedly and sends them for processing to a
  * Bulk Actor via Actor System.
  */
-public class SampleFinancialApp {
+public class SampleApp {
 
   private static final int NUMBER_OF_TRANSACTIONS_TO_READ = 5;
 
   public static void main(String[] args) throws InterruptedException, TimeoutException {
 
     // getting the Actor System for this application
-    ActorSystem actorSystem = ActorSystem.create("ClassicAkkaSampleFinancialApp");
+    ActorSystem actorSystem = ActorSystem.create("ClassicAkkaSampleApp");
 
     // creating the instance of the Bulk Actor
     ActorRef bulkActor = actorSystem.actorOf(Props.create(FinanceTransactionsBulkActor.class));
