@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.app.data.definition;
+package edu.akka.sample.app.classic.data.definition;
 
 /**
- * Supported types of financial transactions.
+ * Supported types of transactions.
  */
 public enum TransactionType {
 
-  INVOICE,
-  PAYMENT,
-  REFUND;
+  RECEIPT,
+  PAY,
+  REIMBURSE;
 }

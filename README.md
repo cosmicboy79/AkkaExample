@@ -1,15 +1,17 @@
 # AkkaExample
 
-Sample application using Akka with Java.
+Sample application using Akka in Java.
 
-Right now, this Sample application uses the Java Akka Classic API. However, I intend
-to use this repository also to exercise the newest API of Akka, in the future.
+Right now, it uses the Java Akka Classic API only, but I intend
+to use this repository, soon. also to learn about the newest API of Akka.
 
-Main entry point for this sample application is
+This sample application's main entry is class
 [SampleApp](https://github.com/cosmicboy79/AkkaExample/blob/main/src/main/java/edu/akka/sample/app/SampleApp.java).
-Financial data is provided by
+The data to be processed is provided via class
 [TransactionProvider](https://github.com/cosmicboy79/AkkaExample/blob/main/src/main/java/edu/akka/sample/app/data/provider/TransactionProvider.java)
-and sent to a Bulk Actor, that in turn sends to the respective child Actors for processing.
+and sent to the Actor System, as follows:
+
+
 
 This project is built with Maven. Java version is 21.
 
