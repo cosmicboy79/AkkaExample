@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.utils;
+package edu.akka.sample.app.utils;
 
 /**
  * Singleton around normal System.out to print messages in a special way.

@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.actor;
+package edu.akka.sample.app.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Status;
-import edu.akka.sample.finance.actor.CustomerActor.TransactionProcessed;
-import edu.akka.sample.finance.data.definition.Customer;
-import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.utils.CustomSystemOut;
+import edu.akka.sample.app.actor.CustomerActor.TransactionProcessed;
+import edu.akka.sample.app.data.definition.Customer;
+import edu.akka.sample.app.data.definition.Transaction;
+import edu.akka.sample.app.utils.CustomSystemOut;
 import java.util.List;
 
 /**

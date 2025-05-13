@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.data.provider;
+package edu.akka.sample.app.data.provider;
 
-import edu.akka.sample.finance.data.definition.Customer;
-import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.data.definition.TransactionType;
+import edu.akka.sample.app.data.definition.Customer;
+import edu.akka.sample.app.data.definition.Transaction;
+import edu.akka.sample.app.data.definition.TransactionType;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;

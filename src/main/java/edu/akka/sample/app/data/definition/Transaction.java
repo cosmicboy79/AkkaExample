@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.data.definition;
+package edu.akka.sample.app.data.definition;
 
 /**
  * Represents a financial transaction.

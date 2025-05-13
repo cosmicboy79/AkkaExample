@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.finance.actor;
+package edu.akka.sample.app.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
-import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.utils.CustomSystemOut;
+import edu.akka.sample.app.data.definition.Transaction;
+import edu.akka.sample.app.utils.CustomSystemOut;
 
 class CustomerActor extends AbstractActor {
 
