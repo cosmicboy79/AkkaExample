@@ -55,7 +55,7 @@ public class SampleApp {
     ActorSystem actorSystem = ActorSystem.create("ClassicAkkaSampleApp");
 
     // creating the instance of the Bulk Actor
-    ActorRef bulkActor = actorSystem.actorOf(Props.create(TransactionsActor.class));
+    ActorRef transactionsActor = actorSystem.actorOf(Props.create(TransactionsActor.class));
 
     // reading first chunk of financial data
     List<Transaction> transactions = TransactionProvider.getInstance().readTransactions(
@@ -72,7 +72,7 @@ public class SampleApp {
       // ask pattern is used
       // in this case, a future is returned, and the main thread will wait for its completion
       // or timeout, if nothing is received...
-      Await.result(Patterns.ask(bulkActor, transactions, Timeout.apply(5, TimeUnit.MINUTES)),
+      Await.result(Patterns.ask(transactionsActor, transactions, Timeout.apply(5, TimeUnit.MINUTES)),
           Duration.create(5, TimeUnit.MINUTES));
 
       CustomSystemOut.INSTANCE.blueBackground("- Batch of transactions no. " + count + " processed -");
