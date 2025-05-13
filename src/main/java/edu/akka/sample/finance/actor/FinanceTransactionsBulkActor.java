@@ -26,20 +26,21 @@ package edu.akka.sample.finance.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.ActorSelection;
-import akka.actor.PoisonPill;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
+import akka.actor.Status;
 import edu.akka.sample.finance.actor.CustomerActor.TransactionProcessed;
+import edu.akka.sample.finance.data.definition.Customer;
 import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.utils.ColorfulOut;
+import edu.akka.sample.finance.utils.CustomSystemOut;
 import java.util.List;
 
+/**
+ * Bulk Actor that receives a list of financial transactions and sends each one of the to the
+ * respective, related Customer Actor for processing.
+ */
 public class FinanceTransactionsBulkActor extends AbstractActor {
 
-  private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
-
   private int numberOfTransactionsToProcess;
+  private ActorRef parentActor;
 
   @Override
   public Receive createReceive() {
@@ -50,49 +51,87 @@ public class FinanceTransactionsBulkActor extends AbstractActor {
             this::sendToCustomers)
         .match(TransactionProcessed.class,
             this::acknowledgeProcessedTransaction)
-        .matchAny(o -> log.error("Unknown message received in Bulk Actor! " + o.toString()))
+        .matchAny(o -> CustomSystemOut.INSTANCE.red(
+            "Unknown message received in Bulk Actor! " + o.toString()))
         .build();
   }
 
+  /**
+   * Operation called when the Actor receives financial transactions. Given the customer associated
+   * to the transaction, this operation creates or finds the related Customer Actor that is
+   * responsible for processing it.
+   *
+   * @param transactions Financial transactions to be processed
+   */
   private void sendToCustomers(List<Transaction> transactions) {
+
+    determineParentActor();
 
     numberOfTransactionsToProcess = transactions.size();
 
-    ColorfulOut.INSTANCE.yellow(
-        "Number of transactions to process: " + numberOfTransactionsToProcess);
+    CustomSystemOut.INSTANCE.yellow(
+        "Number of received transactions to process: " + numberOfTransactionsToProcess);
 
     transactions.forEach(transaction -> {
 
-      ActorRef customerActor = getActorRef(transaction);
+      ActorRef customerActor = getActorRef(transaction.customer());
 
-      ColorfulOut.INSTANCE.purple("Sending message to " + customerActor.path());
-
+      CustomSystemOut.INSTANCE.printAsIs(
+          "Sending message to actor for customer " + transaction.customer()
+              .getColorfulCustomerId());
       customerActor.tell(transaction, customerActor);
     });
   }
 
-  private ActorRef getActorRef(Transaction transaction) {
-
-    String actorName = "customer-" + transaction.customerId();
-
-    if (!getContext().child(actorName).isEmpty()) {
-
-      return getContext().child(actorName).get();
-    }
-
-    return getContext().actorOf(CustomerActor.getCustomerActor(), actorName);
-
-  }
-
+  /**
+   * Operation called when the Actor receives a message from the child actor signaling that the
+   * financial transaction was processed.
+   *
+   * @param transactionProcessed Message about the processing of the transaction
+   */
   private void acknowledgeProcessedTransaction(TransactionProcessed transactionProcessed) {
 
     numberOfTransactionsToProcess--;
 
     if (numberOfTransactionsToProcess == 0) {
 
-      ColorfulOut.INSTANCE.yellow("All transactions processed!");
+      CustomSystemOut.INSTANCE.yellow("Informing the parent that all transactions were processed");
+      parentActor.tell(new Status.Success("OK"), getSelf());
 
-      getContext().getParent().tell("Finished", getSelf());
+      return;
     }
+
+    CustomSystemOut.INSTANCE.yellow("Still " + numberOfTransactionsToProcess + " to go...");
+  }
+
+  /**
+   * Registers the Actor that has sent the financial transactions, so that it can be informed later
+   * on about the completion of the processing.
+   */
+  private void determineParentActor() {
+
+    parentActor = getSender();
+    CustomSystemOut.INSTANCE.yellow("Parent is determined: " + parentActor.path());
+  }
+
+  /**
+   * Finds or creates the Actor reference associated with the given Customer.
+   *
+   * @param customer Customer
+   * @return Actor reference for the given Customer
+   */
+  private ActorRef getActorRef(Customer customer) {
+
+    String actorName = "customer-" + customer.getCustomerId();
+
+    if (!getContext().child(actorName).isEmpty()) {
+
+      CustomSystemOut.INSTANCE.yellow("Child actor for " + actorName + " is found");
+      return getContext().child(actorName).get();
+    }
+
+    CustomSystemOut.INSTANCE.yellow("Actor for " + actorName + " is created");
+    return getContext().actorOf(CustomerActor.getCustomerActor(), actorName);
+
   }
 }

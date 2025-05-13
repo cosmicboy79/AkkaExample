@@ -24,7 +24,10 @@
 
 package edu.akka.sample.finance.utils;
 
-public enum ColorfulOut {
+/**
+ * Singleton around normal System.out to print messages in a special way.
+ */
+public enum CustomSystemOut {
 
   INSTANCE;
 
@@ -32,16 +35,9 @@ public enum ColorfulOut {
   private static final String RESET = "\033[0m";  // Text Reset
 
   // Regular Colors
-  private static final String PURPLE = "\u001B[35m";
   private static final String YELLOW = "\033[0;33m";  // YELLOW
   private static final String RED = "\033[0;31m";     // RED
-  private static final String GREEN = "\033[0;32m";   // GREEN
-  private static final String BLUE = "\033[0;34m";    // BLUE
-
-  public void purple(String message) {
-
-    System.out.println(PURPLE + message + RESET);
-  }
+  private static final String BLUE_BACKGROUND = "\033[0;44m";
 
   public void yellow(String message) {
 
@@ -53,13 +49,18 @@ public enum ColorfulOut {
     System.out.println(RED + message + RESET);
   }
 
-  public void green(String message) {
+  public void blueBackground(String message) {
 
-    System.out.println(GREEN + message + RESET);
+    System.out.println(BLUE_BACKGROUND + message + RESET);
   }
 
-  public void blue(String message) {
+  public void printAsIs(String message) {
 
-    System.out.println(BLUE + message + RESET);
+    System.out.println(message + RESET);
+  }
+
+  public void blankLine() {
+
+    System.out.println();
   }
 }

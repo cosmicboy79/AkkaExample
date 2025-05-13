@@ -27,7 +27,7 @@ package edu.akka.sample.finance.actor;
 import akka.actor.AbstractActor;
 import akka.actor.Props;
 import edu.akka.sample.finance.data.definition.Transaction;
-import edu.akka.sample.finance.utils.ColorfulOut;
+import edu.akka.sample.finance.utils.CustomSystemOut;
 
 class CustomerActor extends AbstractActor {
 
@@ -43,26 +43,30 @@ class CustomerActor extends AbstractActor {
         .match(
             Transaction.class,
             this::processTransaction)
-        .matchAny(o -> ColorfulOut.INSTANCE.red(
+        .matchAny(o -> CustomSystemOut.INSTANCE.red(
             "Unknown message received in Customer Actor! " + o.toString()))
         .build();
   }
 
   private void processTransaction(Transaction transaction) {
 
-    ColorfulOut.INSTANCE.blue("Processing transaction in " + getSelf().path());
+    CustomSystemOut.INSTANCE.printAsIs(getInfoMessage(transaction));
 
-    String message =
-        transaction.transactionType() + " of amount " + transaction.amount() + " for customer "
-            + transaction.customerId();
-    ColorfulOut.INSTANCE.green(message);
-
-    ColorfulOut.INSTANCE.blue("Processing done in " + getSelf().path());
+    CustomSystemOut.INSTANCE.printAsIs(
+        "Processing done for " + transaction.customer().getColorfulCustomerId());
 
     getContext().getParent().tell(new TransactionProcessed(), getSelf());
   }
 
+  private String getInfoMessage(Transaction transaction) {
+
+    return "Processing message " + transaction.id() + " for " + transaction.transactionType()
+        + " of amount " + transaction.amount()
+        + " for " + transaction.customer().getColorfulCustomerId();
+  }
+
   public record TransactionProcessed() {
 
+    // nothing to add here: simple message for Actors
   }
 }

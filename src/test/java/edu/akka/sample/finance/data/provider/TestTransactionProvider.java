@@ -25,6 +25,7 @@
 package edu.akka.sample.finance.data.provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.akka.sample.finance.data.definition.Transaction;
@@ -72,6 +73,32 @@ public class TestTransactionProvider {
     List<Transaction> moreTransactions = provider.readTransactions(BIG_CHUNK);
 
     assertEquals(provider.sizeOfAvailableData() - SMALL_CHUNK, moreTransactions.size());
+  }
+
+  /**
+   * GIVEN provider of transaction data
+   * WHEN reading the data repeatedly in small chunks
+   * THEN all data is finally read
+   */
+  @Test
+  public void testReadAllDataInSmallChunks() {
+
+    TransactionProvider provider = new TransactionProvider();
+
+    List<Transaction> transactionsRead1 = provider.readTransactions(SMALL_CHUNK);
+    List<Transaction> transactionsRead2 = provider.readTransactions(SMALL_CHUNK);
+    List<Transaction> transactionsRead3 = provider.readTransactions(SMALL_CHUNK);
+    List<Transaction> transactionsRead4 = provider.readTransactions(SMALL_CHUNK);
+
+    assertEquals(SMALL_CHUNK, transactionsRead1.size());
+    assertEquals(SMALL_CHUNK, transactionsRead2.size());
+    assertNotEquals(SMALL_CHUNK, transactionsRead3.size());
+    assertTrue(transactionsRead4.isEmpty());
+    assertTrue(transactionsRead3.size() < SMALL_CHUNK);
+
+    assertNotEquals(transactionsRead1, transactionsRead2);
+    assertNotEquals(transactionsRead2, transactionsRead3);
+    assertNotEquals(transactionsRead1, transactionsRead3);
   }
 
   /**

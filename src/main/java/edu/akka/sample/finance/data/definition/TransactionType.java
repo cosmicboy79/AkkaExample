@@ -24,6 +24,9 @@
 
 package edu.akka.sample.finance.data.definition;
 
+/**
+ * Supported types of financial transactions.
+ */
 public enum TransactionType {
 
   INVOICE,
