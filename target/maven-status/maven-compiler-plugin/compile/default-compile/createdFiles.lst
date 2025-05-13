@@ -1,9 +1,0 @@
-edu/akka/sample/finance/data/definition/Transaction.class
-edu/akka/sample/finance/actor/FinanceTransactionsBulkActor.class
-edu/akka/sample/finance/data/definition/Customer.class
-edu/akka/sample/finance/actor/CustomerActor.class
-edu/akka/sample/finance/actor/CustomerActor$TransactionProcessed.class
-edu/akka/sample/finance/SampleFinancialApp.class
-edu/akka/sample/finance/data/provider/TransactionProvider.class
-edu/akka/sample/finance/data/definition/TransactionType.class
-edu/akka/sample/finance/utils/ColorfulOut.class
