@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.app.actor;
+package edu.akka.sample.app.classic.actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Status;
-import edu.akka.sample.app.actor.CustomerActor.TransactionProcessed;
-import edu.akka.sample.app.data.definition.Customer;
-import edu.akka.sample.app.data.definition.Transaction;
-import edu.akka.sample.app.utils.CustomSystemOut;
+import edu.akka.sample.app.classic.actor.CustomerActor.TransactionProcessed;
+import edu.akka.sample.app.classic.data.definition.Customer;
+import edu.akka.sample.app.classic.data.definition.Transaction;
+import edu.akka.sample.app.classic.utils.CustomSystemOut;
 import java.util.List;
 
 /**
- * Bulk Actor that receives a list of financial transactions and sends each one of the to the
- * respective, related Customer Actor for processing.
+ * Actor that receives a list of transactions and sends each one of them to the
+ * respective child Customer Actor for processing.
  */
-public class TransactionsBulkActor extends AbstractActor {
+public class TransactionsActor extends AbstractActor {
 
   private int numberOfTransactionsToProcess;
   private ActorRef parentActor;
@@ -52,12 +52,12 @@ public class TransactionsBulkActor extends AbstractActor {
         .match(TransactionProcessed.class,
             this::acknowledgeProcessedTransaction)
         .matchAny(o -> CustomSystemOut.INSTANCE.red(
-            "Unknown message received in Bulk Actor! " + o.toString()))
+            "Unknown message received in TransactionsActor! " + o.toString()))
         .build();
   }
 
   /**
-   * Operation called when the Actor receives financial transactions. Given the customer associated
+   * Operation called when the Actor receives transactions. Given the customer associated
    * to the transaction, this operation creates or finds the related Customer Actor that is
    * responsible for processing it.
    *
@@ -84,8 +84,8 @@ public class TransactionsBulkActor extends AbstractActor {
   }
 
   /**
-   * Operation called when the Actor receives a message from the child actor signaling that the
-   * financial transaction was processed.
+   * Operation called when the Actor receives a message from the child Customer Actor
+   * signaling that the transaction was processed.
    *
    * @param transactionProcessed Message about the processing of the transaction
    */
@@ -95,7 +95,7 @@ public class TransactionsBulkActor extends AbstractActor {
 
     if (numberOfTransactionsToProcess == 0) {
 
-      CustomSystemOut.INSTANCE.yellow("Informing the parent that all transactions were processed");
+      CustomSystemOut.INSTANCE.yellow("Informing the Parent Actor that all transactions were processed");
       parentActor.tell(new Status.Success("OK"), getSelf());
 
       return;
@@ -105,8 +105,8 @@ public class TransactionsBulkActor extends AbstractActor {
   }
 
   /**
-   * Registers the Actor that has sent the financial transactions, so that it can be informed later
-   * on about the completion of the processing.
+   * Registers the Parent Actor that has sent the transactions, so that it can be informed later
+   * on about the completion of the whole processing.
    */
   private void determineParentActor() {
 
@@ -115,7 +115,7 @@ public class TransactionsBulkActor extends AbstractActor {
   }
 
   /**
-   * Finds or creates the Actor reference associated with the given Customer.
+   * Finds or creates the reference to the child Actor associated with the given Customer.
    *
    * @param customer Customer
    * @return Actor reference for the given Customer

@@ -22,13 +22,14 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.app.data.provider;
+package edu.akka.sample.app.classic.data.provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import edu.akka.sample.app.data.definition.Transaction;
+import edu.akka.sample.app.classic.data.definition.Transaction;
+import edu.akka.sample.app.classic.data.provider.TransactionProvider;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

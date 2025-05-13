@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.app.data.provider;
+package edu.akka.sample.app.classic.data.provider;
 
-import edu.akka.sample.app.data.definition.Customer;
-import edu.akka.sample.app.data.definition.Transaction;
-import edu.akka.sample.app.data.definition.TransactionType;
+import edu.akka.sample.app.classic.data.definition.Customer;
+import edu.akka.sample.app.classic.data.definition.Transaction;
+import edu.akka.sample.app.classic.data.definition.TransactionType;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * Singleton that gives the financial transaction data to the main thread.
+ * Singleton that provides the transaction data to the main thread.
  * <p>
- * In a normal application this data would come from a database or message system, but for the
- * purposes of this exercise, it suffices.
+ * In a normal application this data would come from a database or through a message system,
+ * but for the purposes of this exercise, this singleton suffices.
  */
 public class TransactionProvider {
 
@@ -44,45 +44,49 @@ public class TransactionProvider {
   // the financial transaction data
   final List<Transaction> transactions = List.of(
       new Transaction(1, Customer.CUSTOMER_ID_1, 21.90,
-          TransactionType.INVOICE),
+          TransactionType.RECEIPT),
       new Transaction(2, Customer.CUSTOMER_ID_2, 32.00,
-          TransactionType.INVOICE),
+          TransactionType.RECEIPT),
       new Transaction(3, Customer.CUSTOMER_ID_3, 17.43,
-          TransactionType.INVOICE),
+          TransactionType.RECEIPT),
       new Transaction(4, Customer.CUSTOMER_ID_1, 20.00,
-          TransactionType.PAYMENT),
+          TransactionType.PAY),
       new Transaction(5, Customer.CUSTOMER_ID_1, 2.00,
-          TransactionType.PAYMENT),
+          TransactionType.PAY),
       new Transaction(6, Customer.CUSTOMER_ID_3, 3.00,
-          TransactionType.PAYMENT),
+          TransactionType.PAY),
       new Transaction(7, Customer.CUSTOMER_ID_2, 10.00,
-          TransactionType.PAYMENT),
+          TransactionType.PAY),
       new Transaction(8, Customer.CUSTOMER_ID_2, 5.00,
-          TransactionType.PAYMENT),
+          TransactionType.PAY),
       new Transaction(9, Customer.CUSTOMER_ID_3, 2.00,
-          TransactionType.REFUND),
+          TransactionType.REIMBURSE),
       new Transaction(10, Customer.CUSTOMER_ID_2, 1.00,
-          TransactionType.REFUND),
+          TransactionType.REIMBURSE),
       new Transaction(11, Customer.CUSTOMER_ID_1, 7.50,
-          TransactionType.PAYMENT)
+          TransactionType.PAY)
   );
 
-  // this is an offset pointing to the index to be used for a next read
+  // this is an offset pointing to the index to be used in the next read operation
   private int numberOfTransactionsRead = 0;
 
+  /**
+   * @return instance of {@link TransactionProvider}
+   */
   public static TransactionProvider getInstance() {
 
     return instance;
   }
 
   /**
-   * Reads a of financial transactions for the given input number.
+   * Reads transactions according to the given number of transactions to be read.
    * <p>
-   * Every time this operation is called, the offset shifts for the next read. If there is nothing
-   * more to read, then this operation returns an empty list.
+   * Every time this operation is called, the internal offset shifts. If there is nothing
+   * more to read, i.e., the internal offset is beyond the length of available data,
+   * then this operation returns an empty list.
    *
    * @param numberOfTransactionsToRead How many transactions should be returned
-   * @return Financial transactions as list of {@link Transaction}, or empty list, if there is
+   * @return Transactions as list of {@link Transaction}, or empty list, if there is
    * nothing more to read
    */
   public List<Transaction> readTransactions(int numberOfTransactionsToRead) {
@@ -108,7 +112,7 @@ public class TransactionProvider {
   }
 
   /**
-   * @return Total size of available financial transactions
+   * @return Total number of available transactions
    */
   int sizeOfAvailableData() {
 

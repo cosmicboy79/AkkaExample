@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package edu.akka.sample.app;
+package edu.akka.sample.app.classic;
 
 import static scala.concurrent.duration.Duration.Inf;
 
@@ -31,10 +31,10 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
-import edu.akka.sample.app.actor.TransactionsBulkActor;
-import edu.akka.sample.app.data.definition.Transaction;
-import edu.akka.sample.app.data.provider.TransactionProvider;
-import edu.akka.sample.app.utils.CustomSystemOut;
+import edu.akka.sample.app.classic.actor.TransactionsActor;
+import edu.akka.sample.app.classic.data.definition.Transaction;
+import edu.akka.sample.app.classic.data.provider.TransactionProvider;
+import edu.akka.sample.app.classic.utils.CustomSystemOut;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -55,7 +55,7 @@ public class SampleApp {
     ActorSystem actorSystem = ActorSystem.create("ClassicAkkaSampleApp");
 
     // creating the instance of the Bulk Actor
-    ActorRef bulkActor = actorSystem.actorOf(Props.create(TransactionsBulkActor.class));
+    ActorRef bulkActor = actorSystem.actorOf(Props.create(TransactionsActor.class));
 
     // reading first chunk of financial data
     List<Transaction> transactions = TransactionProvider.getInstance().readTransactions(
