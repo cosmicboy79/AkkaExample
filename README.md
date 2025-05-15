@@ -17,6 +17,6 @@ child Actor (see next point).
 2. [CustomerActor](https://github.com/cosmicboy79/AkkaExample/blob/main/src/main/java/edu/akka/sample/app/classic/actor/CustomerActor.java) - child Actor
 (see previous point) that process the transaction for a customer.
 
-This project was developed with Java 21 ad is built via Maven.
+This project was developed with Java 21 and is built via Maven.
 
 I recommend to simply import it and run it with any preferred IDE.
