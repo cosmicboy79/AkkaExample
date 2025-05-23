@@ -18,8 +18,8 @@ child Actor (see next point).
 (see previous point) that process the transaction for a customer.
 
 This project can be built with either Maven or Gradle, and it was developed with Java 21. In both
-cases, JAR file **sample-akka-app-all-<version>.jar** is built, so that the application can
-be directly executed, in the command line, as per following example:
+cases, JAR file **sample-akka-app-all-<version>.jar** is built, which can be used to run
+the application in the command line, as per following example:
 
 ```
 cd <location of JAR file>
