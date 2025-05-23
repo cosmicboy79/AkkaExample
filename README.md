@@ -17,6 +17,13 @@ child Actor (see next point).
 2. [CustomerActor](https://github.com/cosmicboy79/AkkaExample/blob/main/src/main/java/edu/akka/sample/app/classic/actor/CustomerActor.java) - child Actor
 (see previous point) that process the transaction for a customer.
 
-This project can be built with either Maven or Gradle, and it was developed with Java 21.
+This project can be built with either Maven or Gradle, and it was developed with Java 21. In both
+cases, JAR file **sample-akka-app-all-<version>.jar** is built, which can be used to run
+the application in the command line, as per following example:
 
-I recommend to simply import this project and run it with any preferred IDE.
+```
+cd <location of JAR file>
+java -jar sample-akka-app-all-1.0-SNAPSHOT.jar
+```
+
+In any case, I recommend to simply import this project and run it in the preferred IDE.
